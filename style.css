@@ -1,4 +1,43 @@
 body {
     font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    margin: 0;
     padding: 20px;
+}
+
+.container {
+    max-width: 600px;
+    margin: auto;
+}
+
+h1 {
+    text-align: center;
+}
+
+.note-form {
+    display: flex;
+    gap: 10px;
+}
+
+#noteInput {
+    flex: 1;
+    padding: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+#notesList {
+    margin-top: 20px;
+    padding: 0;
+}
+
+#notesList li {
+    list-style: none;
+    background: white;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
 }

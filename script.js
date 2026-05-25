@@ -14,9 +14,17 @@ function addNote() {
 
     const li = document.createElement("li");
 
-    li.textContent = noteText;
+const deleteBtn = document.createElement("button");
 
-    notesList.appendChild(li);
+deleteBtn.textContent = "Delete";
 
-    noteInput.value = "";
+deleteBtn.addEventListener("click", function () {
+    li.remove();
+});
+
+li.textContent = noteText + " ";
+
+li.appendChild(deleteBtn);
+
+notesList.appendChild(li);
 }

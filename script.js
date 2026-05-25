@@ -9,22 +9,42 @@ function addNote() {
     const noteText = noteInput.value.trim();
 
     if (noteText === "") {
+        alert("Please enter a note");
         return;
     }
 
     const li = document.createElement("li");
 
-const deleteBtn = document.createElement("button");
+    const noteSpan = document.createElement("span");
+    noteSpan.textContent = noteText;
 
-deleteBtn.textContent = "Delete";
+    const editBtn = document.createElement("button");
+    editBtn.textContent = "Edit";
 
-deleteBtn.addEventListener("click", function () {
-    li.remove();
-});
+    editBtn.addEventListener("click", function () {
 
-li.textContent = noteText + " ";
+        const updatedNote = prompt(
+            "Edit Note",
+            noteSpan.textContent
+        );
 
-li.appendChild(deleteBtn);
+        if (updatedNote !== null && updatedNote.trim() !== "") {
+            noteSpan.textContent = updatedNote;
+        }
+    });
 
-notesList.appendChild(li);
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "Delete";
+
+    deleteBtn.addEventListener("click", function () {
+        li.remove();
+    });
+
+    li.appendChild(noteSpan);
+    li.appendChild(editBtn);
+    li.appendChild(deleteBtn);
+
+    notesList.appendChild(li);
+
+    noteInput.value = "";
 }

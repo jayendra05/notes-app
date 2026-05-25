@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notes App</title>
+    <title>Professional Notes App</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -14,8 +14,13 @@
 
             <h1>📝 Notes App</h1>
             <p class="subtitle">
-                Organize your thoughts efficiently
+                Organize your notes efficiently
             </p>
+
+            <div class="stats">
+                Total Notes:
+                <span id="noteCount">0</span>
+            </div>
 
             <div class="input-section">
                 <input
@@ -35,6 +40,10 @@
                 <button id="addBtn">
                     Add Note
                 </button>
+            </div>
+
+            <div id="emptyState" class="empty-state">
+                No notes available.
             </div>
 
             <ul id="notesList"></ul>

@@ -5,6 +5,8 @@ const searchInput = document.getElementById("searchInput");
 const noteCount = document.getElementById("noteCount");
 const emptyState = document.getElementById("emptyState");
 
+let notes = JSON.parse(localStorage.getItem("notes")) || [];
+
 addBtn.addEventListener("click", addNote);
 
 noteInput.addEventListener("keypress", function (event) {
@@ -15,6 +17,8 @@ noteInput.addEventListener("keypress", function (event) {
 
 searchInput.addEventListener("keyup", searchNotes);
 
+renderNotes();
+
 function addNote() {
 
     const noteText = noteInput.value.trim();
@@ -24,67 +28,113 @@ function addNote() {
         return;
     }
 
-    const li = document.createElement("li");
-    li.classList.add("note-item");
+    const note = {
+        id: Date.now(),
+        text: noteText,
+        createdAt: new Date().toLocaleString()
+    };
 
-    const contentDiv = document.createElement("div");
-    contentDiv.classList.add("note-content");
+    notes.push(note);
 
-    const textDiv = document.createElement("div");
-    textDiv.classList.add("note-text");
-    textDiv.textContent = noteText;
+    saveNotes();
 
-    const dateDiv = document.createElement("div");
-    dateDiv.classList.add("note-date");
-
-    dateDiv.textContent =
-        "Created: " + new Date().toLocaleString();
-
-    contentDiv.appendChild(textDiv);
-    contentDiv.appendChild(dateDiv);
-
-    const actionContainer = document.createElement("div");
-    actionContainer.classList.add("note-actions");
-
-    const editBtn = document.createElement("button");
-    editBtn.textContent = "Edit";
-    editBtn.classList.add("edit-btn");
-
-    editBtn.addEventListener("click", function () {
-
-        const updatedText = prompt(
-            "Edit Note",
-            textDiv.textContent
-        );
-
-        if (
-            updatedText !== null &&
-            updatedText.trim() !== ""
-        ) {
-            textDiv.textContent = updatedText;
-        }
-    });
-
-    const deleteBtn = document.createElement("button");
-    deleteBtn.textContent = "Delete";
-    deleteBtn.classList.add("delete-btn");
-
-    deleteBtn.addEventListener("click", function () {
-        li.remove();
-        updateNoteCount();
-    });
-
-    actionContainer.appendChild(editBtn);
-    actionContainer.appendChild(deleteBtn);
-
-    li.appendChild(contentDiv);
-    li.appendChild(actionContainer);
-
-    notesList.appendChild(li);
+    renderNotes();
 
     noteInput.value = "";
+}
+
+function renderNotes() {
+
+    notesList.innerHTML = "";
+
+    notes.forEach(note => {
+
+        const li = document.createElement("li");
+        li.classList.add("note-item");
+
+        const contentDiv = document.createElement("div");
+        contentDiv.classList.add("note-content");
+
+        const textDiv = document.createElement("div");
+        textDiv.classList.add("note-text");
+        textDiv.textContent = note.text;
+
+        const dateDiv = document.createElement("div");
+        dateDiv.classList.add("note-date");
+        dateDiv.textContent =
+            "Created: " + note.createdAt;
+
+        contentDiv.appendChild(textDiv);
+        contentDiv.appendChild(dateDiv);
+
+        const actionContainer =
+            document.createElement("div");
+
+        actionContainer.classList.add(
+            "note-actions"
+        );
+
+        const editBtn =
+            document.createElement("button");
+
+        editBtn.textContent = "Edit";
+        editBtn.classList.add("edit-btn");
+
+        editBtn.addEventListener("click", function () {
+
+            const updatedText = prompt(
+                "Edit Note",
+                note.text
+            );
+
+            if (
+                updatedText !== null &&
+                updatedText.trim() !== ""
+            ) {
+
+                note.text = updatedText;
+
+                saveNotes();
+
+                renderNotes();
+            }
+        });
+
+        const deleteBtn =
+            document.createElement("button");
+
+        deleteBtn.textContent = "Delete";
+        deleteBtn.classList.add("delete-btn");
+
+        deleteBtn.addEventListener("click", function () {
+
+            notes = notes.filter(
+                x => x.id !== note.id
+            );
+
+            saveNotes();
+
+            renderNotes();
+        });
+
+        actionContainer.appendChild(editBtn);
+        actionContainer.appendChild(deleteBtn);
+
+        li.appendChild(contentDiv);
+        li.appendChild(actionContainer);
+
+        notesList.appendChild(li);
+    });
 
     updateNoteCount();
+}
+
+function saveNotes() {
+
+    localStorage.setItem(
+        "notes",
+        JSON.stringify(notes)
+    );
 }
 
 function searchNotes() {
@@ -92,37 +142,32 @@ function searchNotes() {
     const searchText =
         searchInput.value.toLowerCase();
 
-    const notes =
+    const noteItems =
         document.querySelectorAll(".note-item");
 
-    notes.forEach(note => {
+    noteItems.forEach(item => {
 
         if (
-            note.textContent
+            item.textContent
                 .toLowerCase()
                 .includes(searchText)
         ) {
-            note.style.display = "flex";
+            item.style.display = "flex";
         }
         else {
-            note.style.display = "none";
+            item.style.display = "none";
         }
     });
 }
 
 function updateNoteCount() {
 
-    const totalNotes =
-        document.querySelectorAll(".note-item").length;
+    noteCount.textContent = notes.length;
 
-    noteCount.textContent = totalNotes;
-
-    if (totalNotes === 0) {
+    if (notes.length === 0) {
         emptyState.style.display = "block";
     }
     else {
         emptyState.style.display = "none";
     }
 }
-
-updateNoteCount();

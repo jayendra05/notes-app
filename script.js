@@ -1,8 +1,11 @@
 const noteInput = document.getElementById("noteInput");
 const addBtn = document.getElementById("addBtn");
 const notesList = document.getElementById("notesList");
+const searchInput = document.getElementById("searchInput");
 
 addBtn.addEventListener("click", addNote);
+
+searchInput.addEventListener("keyup", searchNotes);
 
 function addNote() {
 
@@ -47,4 +50,27 @@ function addNote() {
     notesList.appendChild(li);
 
     noteInput.value = "";
+}
+
+function searchNotes() {
+
+    const searchText =
+        searchInput.value.toLowerCase();
+
+    const notes =
+        document.querySelectorAll("#notesList li");
+
+    notes.forEach(note => {
+
+        if (
+            note.textContent
+                .toLowerCase()
+                .includes(searchText)
+        ) {
+            note.style.display = "";
+        }
+        else {
+            note.style.display = "none";
+        }
+    });
 }

@@ -1,0 +1,24 @@
+[33mf20a3b8[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m Merge branch 'staging'
+[33m0a7915f[m[33m ([m[1;31morigin/staging[m[33m, [m[1;31morigin/feature/auto-delete-old-notes[m[33m, [m[1;31morigin/develop[m[33m, [m[1;32mstaging[m[33m, [m[1;32mfeature/auto-delete-old-notes[m[33m, [m[1;32mdevelop[m[33m)[m Add automatic cleanup feature
+[33mee18277[m Merge branch 'staging'
+[33mee33dbb[m[33m ([m[1;31morigin/feature/note-management[m[33m, [m[1;32mfeature/note-management[m[33m)[m Add note priority export and bulk delete features
+[33mb6a84bf[m Merge branch 'staging'
+[33m00d18ab[m[33m ([m[1;31morigin/feature/pin-notes[m[33m)[m Merge branch 'feature/header-redesign' into develop
+[33mc338760[m[33m ([m[1;32mfeature/header-redesign[m[33m)[m Resolve merge conflict between dark mode and header redesign
+[33m7ac93c7[m[33m ([m[1;31morigin/feature/dark-mode[m[33m, [m[1;32mfeature/dark-mode[m[33m)[m Add dark mode with theme persistence
+[33mdba9613[m Merge branch 'staging'
+[33m993888b[m[33m ([m[1;31morigin/feature/header-redesign[m[33m, [m[1;32mfeature/local-storage[m[33m)[m Persist notes using local storage
+[33m1bcee5e[m Merge branch 'staging'
+[33mf7bad59[m[33m ([m[1;31morigin/feature/professional-notes[m[33m, [m[1;31morigin/feature/local-storage[m[33m, [m[1;32mfeature/professional-notes[m[33m)[m Add professional notes UI and note metadata
+[33m2b9a529[m Merge branch 'staging'
+[33m2134a1d[m[33m ([m[1;31morigin/feature/note-metadata[m[33m)[m Merge branch 'feature/ui-improvements' into develop
+[33m99d5688[m[33m ([m[1;31morigin/feature/ui-improvements[m[33m, [m[1;32mfeature/ui-improvements[m[33m)[m Improve UI and add search functionality
+[33m092beb1[m Merge pull request #3 from jayendra05/feature/search-notes
+[33m061e8e0[m[33m ([m[1;31morigin/feature/search-notes[m[33m, [m[1;32mfeature/search-notes[m[33m)[m Improve UI and add search functionality
+[33m6df926b[m Improve notes app UI and styling
+[33mfd54692[m Add search notes functionality
+[33mb062d53[m Merge pull request #2 from jayendra05/feature/edit-notes
+[33m7452edb[m[33m ([m[1;31morigin/feature/edit-notes[m[33m, [m[1;32mfeature/edit-notes[m[33m)[m Add edit note functionality
+[33m1ade347[m Add delete note functionality
+[33mb159792[m[33m ([m[1;32mfeature/add-notes[m[33m)[m Add basic note creation functionality
+[33m22883c9[m first commit

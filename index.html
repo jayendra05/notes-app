@@ -3,60 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Professional Notes App</title>
+    <title>Smart Notes</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="app-container">
+<div class="app-container">
 
-        <div class="card">
+    <div class="card">
 
-            <h1>📝 Notes App</h1>
-            <p class="subtitle">
-                Capture ideas, organize work and stay productive
-            </p>
+        <div class="header">
 
-    <button id="themeToggle">
-        🌙 Dark Mode
-    </button>
-</div>
-            <div class="stats">
-                Total Notes:
-                <span id="noteCount">0</span>
+            <div>
+                <h1>🚀 Smart Notes</h1>
+
+                <p class="subtitle">
+                    Capture ideas, organize work and stay productive
+                </p>
             </div>
 
-            <div class="input-section">
-                <input
-                    type="text"
-                    id="searchInput"
-                    placeholder="Search notes..."
-                >
-            </div>
-
-            <div class="input-section">
-                <input
-                    type="text"
-                    id="noteInput"
-                    placeholder="Write a new note..."
-                >
-
-                <button id="addBtn">
-                    Add Note
-                </button>
-            </div>
-
-            <div id="emptyState" class="empty-state">
-                No notes available.
-            </div>
-
-            <ul id="notesList"></ul>
+            <button id="themeToggle">
+                🌙 Dark Mode
+            </button>
 
         </div>
 
+        <div class="stats">
+
+            <span>
+                Total Notes:
+                <strong id="noteCount">0</strong>
+            </span>
+
+        </div>
+
+        <div class="toolbar">
+
+            <button id="exportBtn">
+                Export Notes
+            </button>
+
+            <button id="clearAllBtn">
+                Clear All
+            </button>
+
+        </div>
+
+        <div class="input-section">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="🔍 Search notes..."
+            >
+
+        </div>
+
+        <div class="input-section">
+
+            <input
+                type="text"
+                id="noteInput"
+                placeholder="Write a new note..."
+            >
+
+            <select id="prioritySelect">
+
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
+
+            </select>
+
+            <button id="addBtn">
+                Add Note
+            </button>
+
+        </div>
+
+        <div id="emptyState" class="empty-state">
+            No notes available. Start by creating one.
+        </div>
+
+        <ul id="notesList"></ul>
+
     </div>
 
-    <script src="script.js"></script>
+</div>
+
+<script src="script.js"></script>
 
 </body>
 </html>

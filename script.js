@@ -6,38 +6,86 @@ const noteCount = document.getElementById("noteCount");
 const emptyState = document.getElementById("emptyState");
 const themeToggle = document.getElementById("themeToggle");
 
-let notes = JSON.parse(localStorage.getItem("notes")) || [];
+const prioritySelect =
+    document.getElementById("prioritySelect");
 
-// Event Listeners
-addBtn.addEventListener("click", addNote);
+const exportBtn =
+    document.getElementById("exportBtn");
 
-noteInput.addEventListener("keypress", function (event) {
-    if (event.key === "Enter") {
-        addNote();
+const clearAllBtn =
+    document.getElementById("clearAllBtn");
+
+let notes =
+    JSON.parse(
+        localStorage.getItem("notes")
+    ) || [];
+
+addBtn.addEventListener(
+    "click",
+    addNote
+);
+
+noteInput.addEventListener(
+    "keypress",
+    function (event) {
+
+        if (event.key === "Enter") {
+            addNote();
+        }
     }
-});
+);
 
-searchInput.addEventListener("keyup", searchNotes);
+searchInput.addEventListener(
+    "keyup",
+    searchNotes
+);
 
-themeToggle.addEventListener("click", toggleTheme);
+themeToggle.addEventListener(
+    "click",
+    toggleTheme
+);
 
-// Initial Load
+exportBtn.addEventListener(
+    "click",
+    exportNotes
+);
+
+clearAllBtn.addEventListener(
+    "click",
+    clearAllNotes
+);
+
 initializeTheme();
 renderNotes();
 
 function addNote() {
 
-    const noteText = noteInput.value.trim();
+    const noteText =
+        noteInput.value.trim();
 
     if (noteText === "") {
-        alert("Please enter a note");
+
+        alert(
+            "Please enter a note"
+        );
+
         return;
     }
 
     const note = {
+
         id: Date.now(),
+
         text: noteText,
-        createdAt: new Date().toLocaleString()
+
+        priority:
+            prioritySelect.value,
+
+        createdAt:
+            new Date()
+                .toLocaleString(),
+
+        updatedAt: null
     };
 
     notes.push(note);
@@ -55,85 +103,209 @@ function renderNotes() {
 
     notes.forEach(note => {
 
-        const li = document.createElement("li");
-        li.classList.add("note-item");
+        const li =
+            document.createElement(
+                "li"
+            );
 
-        // Content Section
-        const contentDiv = document.createElement("div");
-        contentDiv.classList.add("note-content");
+        li.classList.add(
+            "note-item"
+        );
 
-        const textDiv = document.createElement("div");
-        textDiv.classList.add("note-text");
-        textDiv.textContent = note.text;
+        const contentDiv =
+            document.createElement(
+                "div"
+            );
 
-        const dateDiv = document.createElement("div");
-        dateDiv.classList.add("note-date");
+        contentDiv.classList.add(
+            "note-content"
+        );
+
+        const textDiv =
+            document.createElement(
+                "div"
+            );
+
+        textDiv.classList.add(
+            "note-text"
+        );
+
+        textDiv.textContent =
+            note.text;
+
+        const dateDiv =
+            document.createElement(
+                "div"
+            );
+
+        dateDiv.classList.add(
+            "note-date"
+        );
+
+        let dateText =
+            "Created: " +
+            note.createdAt;
+
+        if (
+            note.updatedAt
+        ) {
+
+            dateText +=
+                " | Updated: " +
+                note.updatedAt;
+        }
+
         dateDiv.textContent =
-            "Created: " + note.createdAt;
+            dateText;
 
-        contentDiv.appendChild(textDiv);
-        contentDiv.appendChild(dateDiv);
+        const priorityDiv =
+            document.createElement(
+                "div"
+            );
 
-        // Buttons Section
+        priorityDiv.classList.add(
+            "priority"
+        );
+
+        priorityDiv.textContent =
+            "Priority: " +
+            note.priority;
+
+        if (
+            note.priority ===
+            "High"
+        ) {
+
+            priorityDiv.classList.add(
+                "priority-high"
+            );
+        }
+        else if (
+            note.priority ===
+            "Medium"
+        ) {
+
+            priorityDiv.classList.add(
+                "priority-medium"
+            );
+        }
+        else {
+
+            priorityDiv.classList.add(
+                "priority-low"
+            );
+        }
+
+        contentDiv.appendChild(
+            textDiv
+        );
+
+        contentDiv.appendChild(
+            dateDiv
+        );
+
+        contentDiv.appendChild(
+            priorityDiv
+        );
+
         const actionContainer =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
 
         actionContainer.classList.add(
             "note-actions"
         );
 
-        // Edit Button
         const editBtn =
-            document.createElement("button");
-
-        editBtn.textContent = "Edit";
-        editBtn.classList.add("edit-btn");
-
-        editBtn.addEventListener("click", function () {
-
-            const updatedText = prompt(
-                "Edit Note",
-                note.text
+            document.createElement(
+                "button"
             );
 
-            if (
-                updatedText !== null &&
-                updatedText.trim() !== ""
-            ) {
+        editBtn.textContent =
+            "Edit";
 
-                note.text = updatedText.trim();
+        editBtn.classList.add(
+            "edit-btn"
+        );
+
+        editBtn.addEventListener(
+            "click",
+            function () {
+
+                const updatedText =
+                    prompt(
+                        "Edit Note",
+                        note.text
+                    );
+
+                if (
+                    updatedText !== null &&
+                    updatedText.trim() !== ""
+                ) {
+
+                    note.text =
+                        updatedText.trim();
+
+                    note.updatedAt =
+                        new Date()
+                            .toLocaleString();
+
+                    saveNotes();
+
+                    renderNotes();
+                }
+            }
+        );
+
+        const deleteBtn =
+            document.createElement(
+                "button"
+            );
+
+        deleteBtn.textContent =
+            "Delete";
+
+        deleteBtn.classList.add(
+            "delete-btn"
+        );
+
+        deleteBtn.addEventListener(
+            "click",
+            function () {
+
+                notes =
+                    notes.filter(
+                        x =>
+                            x.id !==
+                            note.id
+                    );
 
                 saveNotes();
 
                 renderNotes();
             }
-        });
+        );
 
-        // Delete Button
-        const deleteBtn =
-            document.createElement("button");
+        actionContainer.appendChild(
+            editBtn
+        );
 
-        deleteBtn.textContent = "Delete";
-        deleteBtn.classList.add("delete-btn");
+        actionContainer.appendChild(
+            deleteBtn
+        );
 
-        deleteBtn.addEventListener("click", function () {
+        li.appendChild(
+            contentDiv
+        );
 
-            notes = notes.filter(
-                x => x.id !== note.id
-            );
+        li.appendChild(
+            actionContainer
+        );
 
-            saveNotes();
-
-            renderNotes();
-        });
-
-        actionContainer.appendChild(editBtn);
-        actionContainer.appendChild(deleteBtn);
-
-        li.appendChild(contentDiv);
-        li.appendChild(actionContainer);
-
-        notesList.appendChild(li);
+        notesList.appendChild(
+            li
+        );
     });
 
     updateNoteCount();
@@ -150,36 +322,102 @@ function saveNotes() {
 function searchNotes() {
 
     const searchText =
-        searchInput.value.toLowerCase();
+        searchInput.value
+            .toLowerCase();
 
     const noteItems =
-        document.querySelectorAll(".note-item");
+        document.querySelectorAll(
+            ".note-item"
+        );
 
     noteItems.forEach(item => {
 
         if (
             item.textContent
                 .toLowerCase()
-                .includes(searchText)
+                .includes(
+                    searchText
+                )
         ) {
-            item.style.display = "flex";
+
+            item.style.display =
+                "flex";
         }
         else {
-            item.style.display = "none";
+
+            item.style.display =
+                "none";
         }
     });
 }
 
 function updateNoteCount() {
 
-    noteCount.textContent = notes.length;
+    noteCount.textContent =
+        notes.length;
 
-    if (notes.length === 0) {
-        emptyState.style.display = "block";
+    emptyState.style.display =
+        notes.length === 0
+            ? "block"
+            : "none";
+}
+
+function clearAllNotes() {
+
+    const confirmed =
+        confirm(
+            "Delete all notes?"
+        );
+
+    if (!confirmed) {
+        return;
     }
-    else {
-        emptyState.style.display = "none";
-    }
+
+    notes = [];
+
+    saveNotes();
+
+    renderNotes();
+}
+
+function exportNotes() {
+
+    const json =
+        JSON.stringify(
+            notes,
+            null,
+            2
+        );
+
+    const blob =
+        new Blob(
+            [json],
+            {
+                type:
+                    "application/json"
+            }
+        );
+
+    const url =
+        URL.createObjectURL(
+            blob
+        );
+
+    const a =
+        document.createElement(
+            "a"
+        );
+
+    a.href = url;
+
+    a.download =
+        "notes.json";
+
+    a.click();
+
+    URL.revokeObjectURL(
+        url
+    );
 }
 
 function toggleTheme() {
@@ -195,7 +433,9 @@ function toggleTheme() {
 
     localStorage.setItem(
         "theme",
-        isDark ? "dark" : "light"
+        isDark
+            ? "dark"
+            : "light"
     );
 
     updateThemeButton();
@@ -204,9 +444,14 @@ function toggleTheme() {
 function initializeTheme() {
 
     const savedTheme =
-        localStorage.getItem("theme");
+        localStorage.getItem(
+            "theme"
+        );
 
-    if (savedTheme === "dark") {
+    if (
+        savedTheme ===
+        "dark"
+    ) {
 
         document.body.classList.add(
             "dark-mode"
@@ -218,16 +463,10 @@ function initializeTheme() {
 
 function updateThemeButton() {
 
-    if (
+    themeToggle.textContent =
         document.body.classList.contains(
             "dark-mode"
         )
-    ) {
-        themeToggle.textContent =
-            "☀️ Light Mode";
-    }
-    else {
-        themeToggle.textContent =
-            "🌙 Dark Mode";
-    }
+            ? "☀️ Light Mode"
+            : "🌙 Dark Mode";
 }

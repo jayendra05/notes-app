@@ -56,11 +56,6 @@ clearAllBtn.addEventListener(
 );
 
 initializeTheme();
-
-notes = [];
-
-saveNotes();
-
 renderNotes();
 
 function addNote() {

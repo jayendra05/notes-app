@@ -1,3 +1,16 @@
 # Notes App
 
-Learning Git with a Notes App project.
+A simple notes application built using:
+
+- HTML
+- CSS
+- JavaScript
+
+Features:
+
+- Add Notes
+- Edit Notes
+- Delete Notes
+- Search Notes
+- Dark Mode
+- Local Storage

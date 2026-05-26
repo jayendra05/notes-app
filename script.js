@@ -4,9 +4,11 @@ const notesList = document.getElementById("notesList");
 const searchInput = document.getElementById("searchInput");
 const noteCount = document.getElementById("noteCount");
 const emptyState = document.getElementById("emptyState");
+const themeToggle = document.getElementById("themeToggle");
 
 let notes = JSON.parse(localStorage.getItem("notes")) || [];
 
+// Event Listeners
 addBtn.addEventListener("click", addNote);
 
 noteInput.addEventListener("keypress", function (event) {
@@ -17,6 +19,10 @@ noteInput.addEventListener("keypress", function (event) {
 
 searchInput.addEventListener("keyup", searchNotes);
 
+themeToggle.addEventListener("click", toggleTheme);
+
+// Initial Load
+initializeTheme();
 renderNotes();
 
 function addNote() {
@@ -52,6 +58,7 @@ function renderNotes() {
         const li = document.createElement("li");
         li.classList.add("note-item");
 
+        // Content Section
         const contentDiv = document.createElement("div");
         contentDiv.classList.add("note-content");
 
@@ -67,6 +74,7 @@ function renderNotes() {
         contentDiv.appendChild(textDiv);
         contentDiv.appendChild(dateDiv);
 
+        // Buttons Section
         const actionContainer =
             document.createElement("div");
 
@@ -74,6 +82,7 @@ function renderNotes() {
             "note-actions"
         );
 
+        // Edit Button
         const editBtn =
             document.createElement("button");
 
@@ -92,7 +101,7 @@ function renderNotes() {
                 updatedText.trim() !== ""
             ) {
 
-                note.text = updatedText;
+                note.text = updatedText.trim();
 
                 saveNotes();
 
@@ -100,6 +109,7 @@ function renderNotes() {
             }
         });
 
+        // Delete Button
         const deleteBtn =
             document.createElement("button");
 
@@ -169,5 +179,55 @@ function updateNoteCount() {
     }
     else {
         emptyState.style.display = "none";
+    }
+}
+
+function toggleTheme() {
+
+    document.body.classList.toggle(
+        "dark-mode"
+    );
+
+    const isDark =
+        document.body.classList.contains(
+            "dark-mode"
+        );
+
+    localStorage.setItem(
+        "theme",
+        isDark ? "dark" : "light"
+    );
+
+    updateThemeButton();
+}
+
+function initializeTheme() {
+
+    const savedTheme =
+        localStorage.getItem("theme");
+
+    if (savedTheme === "dark") {
+
+        document.body.classList.add(
+            "dark-mode"
+        );
+    }
+
+    updateThemeButton();
+}
+
+function updateThemeButton() {
+
+    if (
+        document.body.classList.contains(
+            "dark-mode"
+        )
+    ) {
+        themeToggle.textContent =
+            "☀️ Light Mode";
+    }
+    else {
+        themeToggle.textContent =
+            "🌙 Dark Mode";
     }
 }
